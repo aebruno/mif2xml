@@ -34,29 +34,29 @@ class Tag {
 };
 
 void Tag::writeEnd() {
-    if(this->value.length() > 0) {
-        unsigned int loc = this->value.find("&", 0);
-        while(loc != string::npos) {
-            this->value.replace(loc, 1, "&amp;");
-            loc = this->value.find("&", loc+5);
-        }
-
-        loc = this->value.find("<", 0);
-        while(loc != string::npos) {
-            this->value.replace(loc, 1, "&lt;");
-            loc = this->value.find("<", loc+4);
-        }
-
-        loc = this->value.find(">", 0);
-        while(loc != string::npos) {
-            this->value.replace(loc, 1, "&gt;");
-            loc = this->value.find(">", loc+4);
-        }
-
-        loc = this->value.find("\"", 0);
-        while(loc != string::npos) {
-            this->value.replace(loc, 1, "&quot;");
-            loc = this->value.find("\"", loc+6);
+    if(!this->value.empty()) {
+        /* escape xml special chars */
+        string::size_type size = this->value.size();
+        for(string::size_type i = 0; i < size;) {
+            if(this->value[i] == '&') {
+                this->value.replace(i, 1, "&amp;");
+                i += 4;
+                size += 4;
+            } else if(this->value[i] == '<') {
+                this->value.replace(i, 1, "&lt;");
+                i += 3;
+                size += 3;
+            } else if(this->value[i] == '>') {
+                this->value.replace(i, 1, "&gt;");
+                i += 3;
+                size += 3;
+            } else if(this->value[i] == '"') {
+                this->value.replace(i, 1, "&quot;");
+                i += 5;
+                size += 5;
+            } else {
+                i++;
+            }
         }
 
         /* Trim leading spaces */
@@ -65,8 +65,8 @@ void Tag::writeEnd() {
         }
 
         /* Trim trailing spaces */
-        while(this->value[this->value.length()-1] == ' ') {
-            this->value.erase(this->value.length()-1, 1);
+        while(this->value[this->value.size()-1] == ' ') {
+            this->value.erase(this->value.size()-1, 1);
         }
 
         cout << value << "</" << this->name << ">";
