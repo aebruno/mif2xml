@@ -65,13 +65,11 @@ WHITE_SPACE_CHAR  [ \n\t]
 
 <INITIAL>^"="[a-zA-Z][a-zA-Z0-9]*{NEWLINE} {
     string str = string(YYText());
+    facet = string("");
+    facet.append(str);
     if(str.find("=EndInset") == string::npos) {
-        facet = string("");
-        facet.append(str);
         BEGIN(FACET);
     } else {
-        facet = string("");
-        facet.append(str);
         writeFacet(facet);
     }
 }
