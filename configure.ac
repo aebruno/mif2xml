@@ -1,5 +1,5 @@
 AC_PREREQ(2.57)
-AC_INIT([mif2xml], [0.1], [Andrew Bruno <aeb@qnot.org>])
+AC_INIT([mif2xml], [0.2], [Andrew Bruno <aeb@qnot.org>])
 AM_INIT_AUTOMAKE([foreign])
 
 AC_PROG_CXX
