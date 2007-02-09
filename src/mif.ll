@@ -69,6 +69,10 @@ WHITE_SPACE_CHAR  [ \n\t]
         facet = string("");
         facet.append(str);
         BEGIN(FACET);
+    } else {
+        facet = string("");
+        facet.append(str);
+        writeFacet(facet);
     }
 }
 
