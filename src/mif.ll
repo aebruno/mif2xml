@@ -64,10 +64,12 @@ WHITE_SPACE_CHAR  [ \n\t]
 }
 
 <INITIAL>^"="[a-zA-Z][a-zA-Z0-9]*{NEWLINE} {
-    facet = string("");
     string str = string(YYText());
-    facet.append(str);
-    BEGIN(FACET);
+    if(str.find("=EndInset") == string::npos) {
+        facet = string("");
+        facet.append(str);
+        BEGIN(FACET);
+    }
 }
 
 <INITIAL>{WHITE_SPACE_CHAR}+   {  /* eat up whitespace */ }
