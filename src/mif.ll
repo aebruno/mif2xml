@@ -122,16 +122,13 @@ WHITE_SPACE_CHAR  [ \n\t]
     }
 }
 
-<FACET>^"=EndInset"{NEWLINE} {
+<FACET>^.*{NEWLINE} {
     string str = string(YYText());
     facet.append(str);
-    writeFacet(facet);
-    BEGIN(INITIAL);
-}
-
-<FACET>.*{NEWLINE} {
-    string str = string(YYText());
-    facet.append(str);
+    if(str.find("=EndInset") != string::npos) {
+        writeFacet(facet);
+        BEGIN(INITIAL);
+    }
 }
 
 %%
